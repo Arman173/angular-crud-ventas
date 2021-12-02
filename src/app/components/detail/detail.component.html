@@ -1,0 +1,53 @@
+<div class="container detail">
+    <div id="detail-header">
+        <h3>Sale: <span class="id">{{ sale._id }}</span></h3>
+        <img src="assets/icons/trash.png" class="icons delete-image" title="delete" alt="delete" (click)="showDeleteRequest()">
+        <img src="assets/icons/writing.png" class="icons edit-image" title="edit" alt="edit" [routerLink]="['/edit', sale._id]">
+    </div>
+
+    <div id="detail-contain">
+        <span>Date: <span class="date">{{ sale.Date }}</span></span>
+        <span class="liquidated-text">
+            Liquidated: 
+            <span *ngIf="sale.Paid" class="state liquidated">{{ sale.Paid | date: "dd/MM/yyyy" }}</span>
+            <span *ngIf="!sale.Paid" class="state pending">Pending</span>
+        </span>
+
+        <aside>
+            <span class="attribute-name">Total: <span class="number">{{ '$'+sale.Amount }}</span></span>
+            <span class="attribute-name">Paid: <span class="number">{{ '$'+sale.Status }}</span></span>
+        </aside>
+
+        <div>
+            Description <p>{{ sale.Description }}</p>
+        </div>
+    </div>
+
+    <div *ngIf="!sale.Paid" id="detail-pay">
+        <h3>Add Payment</h3>
+        <form #newPay="ngForm" (submit)="addPay( newPay )">
+            <label for="amount">Amount:</label>
+            <input type="number" name="amount" #amount="ngModel" [(ngModel)]="payment" required min="0" max="{{ sale.Amount - sale.Status }}">
+            <input type="submit" value="Add" class="add-payment"
+            [disabled]="!newPay.form.valid || amount.value <= 0 || amount.value > sale.Amount - sale.Status"
+            [ngClass]="{ 'disabled':amount.value <= 0 || amount.value > sale.Amount - sale.Status }">
+            <span>Amount to pay: 
+                <span *ngIf="loaded">${{ sale.Amount - sale.Status - payment }}</span>
+                <span *ngIf="!loaded">cargando...</span>
+            </span>
+        </form>
+        
+    </div>
+
+    <button [routerLink]="['/']" class="back">Back to all sales</button>
+</div>
+
+<div class="pop-up" *ngIf="showPopup">
+    <div class="pop-up-contain">
+        <p>Are you sure to delete this sale?</p>
+        <div class="pop-up-buttons">
+            <button class="accept" (click)="hideDeleteRequest()">Cancel</button>
+            <button class="cancel" (click)="deleteSale()">Delete</button>
+        </div>
+    </div>
+</div>

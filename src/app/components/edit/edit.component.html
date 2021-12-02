@@ -1,0 +1,35 @@
+<div class="container add-form">
+    <div class="header-add-form">
+        <h3>Edit Sale</h3>
+    </div>
+    <form #editSale="ngForm" (submit)="onSubmit( editSale )" class="addForm editForm">
+        <p>
+            <label for="date">Date</label>
+            <input class="edit-input" name="date" type="date" #date="ngModel" [(ngModel)]="_sale.Date" required>
+        </p>
+        <p>
+            <label for="description">Description</label>
+            <textarea name="description" #description="ngModel" [(ngModel)]="_sale.Description" required></textarea>
+        </p>
+        <p>
+            <label for="paid">Paid</label>
+            <input class="edit-input" name="paid" type="date" #paid="ngModel" [(ngModel)]="_sale.Paid">
+        </p>
+        <p>
+            <label for="amount">Amount</label>
+            <input class="edit-input" type="number" name="amount" #amount="ngModel" [(ngModel)]="_sale.Amount" required min="0">
+        </p>
+        <p>
+            <label for="payment">Payment</label>
+            <input class="edit-input" type="number" name="payment" #payment="ngModel" [(ngModel)]="_sale.Status" required min="0">
+        </p>
+
+        <p class="btns">
+            <input type="button" value="Cancel" [routerLink]="['/detail', _sale._id]" class="back-btn">
+            <input type="submit" value="Edit" 
+            [disabled]="!editSale.valid"
+            [ngClass]="{ 'disabled': !editSale.valid }"
+            class="add-btn">
+        </p>
+    </form>
+</div>

@@ -1,0 +1,37 @@
+<div id="sales" class="container">
+
+    <div id="header-sales">
+        <h3 class="horizontal">My Sales</h3>
+
+        <button class="horizontal" [routerLink]="['/add']">Add Sale</button>
+    </div>
+
+    <ul id="sales">
+        <li *ngFor="let sale of sales" class="sale" [routerLink]="['detail', sale._id]">
+
+            <div class="left">
+                <h3>Sale id: <span class="id">{{ sale._id }}</span></h3>
+                <div>
+                    <span class="attribute-name">Date: <span class="date">{{ sale.Date | date: "dd/MM/yyyy" }}</span></span>
+                    <span class="attribute-name">Description: <p class="desc">{{ sale.Description }}</p></span>
+                </div>
+            </div>
+
+            <div class="right">
+                <div class="paid">
+                    <span class="attribute-name">
+                        <span class="liquidated-text">Liquidated: </span>
+                        <span *ngIf="sale.Paid" class="state liquidated">{{ sale.Paid | date: "dd/MM/yyyy" }}</span>
+                        <span *ngIf="!sale.Paid" class="state pending">Pending</span>
+                    </span>
+                </div>
+                <div class="quantities">
+                    <span class="attribute-name">Total: <span class="number">{{ '$'+sale.Amount }}</span></span>
+                    <span class="attribute-name">Paid: <span class="number">{{ '$'+sale.Status }}</span></span>
+                </div>
+            </div>
+
+        </li>
+    </ul>
+
+</div>
